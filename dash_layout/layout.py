@@ -35,38 +35,38 @@ def create_layout():
 
                 dbc.Row([
                     dbc.Col(
-                        html.P("Select a Ticker"), 
-                        className="d-flex justify-content-center align-items-center",
+                        html.P("Select a Ticker", style={"margin-bottom": "0px"}), 
+                        className="d-flex justify-content-start align-items-end",
                         width=2
                     ),
                     
                     dbc.Col(
-                        html.P("Initial Capital"), 
-                        className="d-flex justify-content-center align-items-center",
+                        html.P("Initial Capital", style={"margin-bottom": "0px"}), 
+                        className="d-flex justify-content-start align-items-end",
                         width=2
                     ),
 
                     dbc.Col(
-                        html.P("Interval Between Deposits (Months)"), 
+                        html.P("Interval Between Deposits (Months)", style={"margin-bottom": "0px"}), 
                         className="d-flex justify-content-center align-items-center", 
                         width=2
                     ),
 
                     dbc.Col(
-                        html.P("Amount of Deposit"), 
-                        className="d-flex justify-content-center align-items-center", 
+                        html.P("Amount of Deposit", style={"margin-bottom": "0px"}), 
+                        className="d-flex justify-content-start align-items-end", 
                         width=2
                     ),
 
                     dbc.Col(
-                        html.P("Start Date"), 
-                        className="d-flex justify-content-center align-items-center", 
+                        html.P("Start Date", style={"margin-bottom": "0px"}), 
+                        className="d-flex justify-content-start align-items-end", 
                         width=2
                         ),
 
                     dbc.Col(
-                        html.P("End Date"), 
-                        className="d-flex justify-content-center align-items-center", 
+                        html.P("End Date", style={"margin-bottom": "0px"}), 
+                        className="d-flex justify-content-start align-items-end", 
                         width=2
                         )
                 ], style={"padding-top": "100px"}),
@@ -127,7 +127,29 @@ def create_layout():
                         dbc.Row([
                             dbc.Col(html.P(html.B("Profit in %")), width=4),
                             dbc.Col(dbc.Input(id="profit", disabled=True))
-                        ], style={'padding-top': "20px"})
+                        ], style={'padding-top': "20px"}),
+
+                        dbc.Row([
+                            dbc.Col(html.P(html.B("Compare with")), width=4),
+                            dbc.Col(                        
+                                dcc.Dropdown(
+                                    id='ticker-dropdown-compare',
+                                    options=[
+                                        {"label": ticker,
+                                        "value": ticker}
+                                        for ticker in tickers
+                                    ],
+                                    placeholder="Select a ticker",
+                                    searchable=True,  # Enable searching
+                                    multi=False,      # Set to True for multi-select dropdown
+                                )
+                            )
+                        ], style={'padding-top': "40px"}),
+
+                        dbc.Row([
+                            dbc.Col(dbc.Button("Compare", id="compare-button", color='danger'),
+                                    className="d-flex justify-content-end")
+                        ], style={"padding-top": "20px"})
                 ])
                 ], style={"padding-top": "0px"})
     ])
