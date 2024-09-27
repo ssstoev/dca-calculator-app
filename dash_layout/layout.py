@@ -90,7 +90,7 @@ def create_layout():
                         dbc.Input(id='initial-capital', placeholder='e.g. 1000, 10000...', type="number"), width=2
                     ),
                     dbc.Col(
-                        dbc.Input(id='interval-between-deposits', placeholder='e.g. 1M, 2M...', type="text"), width=2
+                        dbc.Input(id='interval-between-deposits', placeholder='e.g. 1, 2...', type="number"), width=2
                     ),
                     dbc.Col(
                         dbc.Input(id='amount-of-deposit', placeholder='e.g. 100, 200...', type='number'), width=2
@@ -121,7 +121,13 @@ def create_layout():
                         dbc.Row([
                             dbc.Col(html.P(html.B("Portfolio Value")), width=4),
                             dbc.Col(dbc.Input(id="portfolio-value", disabled=True))
+                        ], style={'padding-top': "20px"}),
+
+                        
+                        dbc.Row([
+                            dbc.Col(html.P(html.B("Profit in %")), width=4),
+                            dbc.Col(dbc.Input(id="profit", disabled=True))
                         ], style={'padding-top': "20px"})
                 ])
-                ], style={"padding-top": "20px"})
+                ], style={"padding-top": "0px"})
     ])

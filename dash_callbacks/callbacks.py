@@ -6,6 +6,7 @@ import datetime
     Output("dca-graph", "figure"),
     Output("total-invested-output", "value"),
     Output("portfolio-value", "value"),
+    Output("profit", "value"),
     Input("submit-button", "n_clicks"),
     [State("ticker-dropdown", "value"),
      State("initial-capital", "value"),
@@ -17,6 +18,7 @@ import datetime
 
 def update_graph(n_clicks, ticker, initial_capital, interval, amount, start_date, end_date):
     if n_clicks > 0:
+        interval = str(interval) + "ME"
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
         end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
         # print('button pressed')
@@ -26,8 +28,12 @@ def update_graph(n_clicks, ticker, initial_capital, interval, amount, start_date
 
         total_investment = investment_df["Total Investment"].iloc[-1]
         portfolio_value = investment_df["Portfolio Value"].iloc[-1]
-        # print(figure)
-        return figure, round(total_investment, 2), round(portfolio_value, 2)
+
+        # clculate the profit in %
+        profit = portfolio_value - total_investment
+        profit_percentage= str((round(profit / total_investment, 2))* 100) + "%"
+        
+        return figure, round(total_investment, 2), round(portfolio_value, 2), profit_percentage
     
-    return go.Figure, None, None
+    return go.Figure, None, None, None
 
