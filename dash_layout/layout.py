@@ -12,17 +12,8 @@ tickers = [
     'ABT', 'LIN', 'CSCO', 'DHR', 'DIS', 'ADBE', 'NKE', 'BHP', 'PM', 
     'VZ', 'NEE', 'INTC', 'RTX', 'SAP', 'SCHW'
 ]
-# amount = 500
-# period = '3M'
 
-# ticker = 'AAPL'
-# start_date = '2017-01-01'
-# end_date = '2024-01-01'
 def create_layout():
-    # fig = go.Figure()
-    # fig.add_trace(go.Scatter(x=[1, 2, 3, 4], y=[0, 2, 3, 5], fill='tozeroy')) # fill down to xaxis
-    # fig.add_trace(go.Scatter(x=[1, 2, 3, 4], y=[3, 5, 1, 7], fill='tonexty')) # fill to trace0 y
-
     return dbc.Container([
                 dbc.Row(
                     dbc.Navbar(
@@ -44,27 +35,39 @@ def create_layout():
 
                 dbc.Row([
                     dbc.Col(
-                        html.P("Select a Ticker"), width=2
+                        html.P("Select a Ticker"), 
+                        className="d-flex justify-content-center align-items-center",
+                        width=2
                     ),
                     
                     dbc.Col(
-                        html.P("Initial Capital"), width=2
+                        html.P("Initial Capital"), 
+                        className="d-flex justify-content-center align-items-center",
+                        width=2
                     ),
 
                     dbc.Col(
-                        html.P("Interval Between Deposits (Months)"), width=2
+                        html.P("Interval Between Deposits (Months)"), 
+                        className="d-flex justify-content-center align-items-center", 
+                        width=2
                     ),
 
                     dbc.Col(
-                        html.P("Amount of Deposit"), width=2
+                        html.P("Amount of Deposit"), 
+                        className="d-flex justify-content-center align-items-center", 
+                        width=2
                     ),
 
                     dbc.Col(
-                        html.P("Start Date"), width=2
+                        html.P("Start Date"), 
+                        className="d-flex justify-content-center align-items-center", 
+                        width=2
                         ),
 
                     dbc.Col(
-                        html.P("End Date"), width=2
+                        html.P("End Date"), 
+                        className="d-flex justify-content-center align-items-center", 
+                        width=2
                         )
                 ], style={"padding-top": "100px"}),
 
@@ -97,13 +100,28 @@ def create_layout():
                     ),
                     dbc.Col(
                         dbc.Input(id='end-date', type="date"), width=2
-                    ),
-                    dbc.Col(
-                        dbc.Button("Submit", id='submit-button', n_clicks=0), width=2
                     )
                 ], style={"padding-top": "5px"}),
 
                 dbc.Row([
-                    dcc.Graph(id="dca-graph")
+                    dbc.Col(
+                        dbc.Button("Submit", id='submit-button', n_clicks=0),
+                        className="d-flex justify-content-end"
+                    )
+                ], style={"padding-top": "20px"}),
+
+                dbc.Row([
+                    dbc.Col(dcc.Graph(id="dca-graph"), width=8),
+                    dbc.Col([
+                        dbc.Row([
+                            dbc.Col(html.P(html.B("Total Invested")), width=4),
+                            dbc.Col(dbc.Input(id="total-invested-output", disabled=True))
+                        ], style={"padding-top": "100px"}),
+
+                        dbc.Row([
+                            dbc.Col(html.P(html.B("Portfolio Value")), width=4),
+                            dbc.Col(dbc.Input(id="portfolio-value", disabled=True))
+                        ], style={'padding-top': "20px"})
+                ])
                 ], style={"padding-top": "20px"})
     ])

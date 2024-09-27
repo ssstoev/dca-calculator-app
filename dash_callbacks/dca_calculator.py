@@ -2,12 +2,12 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
 
-amount = 500
-period = '3M'
-initial_deposit = 10000
-ticker = 'AAPL'
-start_date = '2017-01-01'
-end_date = '2024-01-01'
+# amount = 500
+# period = '3M'
+# initial_deposit = 10000
+# ticker = 'AAPL'
+# start_date = '2017-01-01'
+# end_date = '2024-01-01'
 # data = yf.download(ticker, start_date, end_date)
 # data_resampled = data.resample(period).first()
 # data_resampled.dropna(inplace=True)
@@ -22,19 +22,19 @@ def calculate_dca(ticker, initial_deposit, period, amount, start_date, end_date)
     total_shares = 0
     total_investement = 0
 
-    investement_log = []
+    investment_log = []
 
     for date, row in data_resampled.iterrows():
         price = row['Adj Close']
         if total_investement == 0:
             total_shares += initial_deposit / price
             total_investement += initial_deposit
-        print(total_investement)
 
         total_shares += amount / price
         total_investement += amount
         
         current_log = {
+            'Ticker': ticker,
             'Date': date,
             'Price': price,
             'Total Shares': total_shares,
@@ -42,20 +42,25 @@ def calculate_dca(ticker, initial_deposit, period, amount, start_date, end_date)
             'Portfolio Value': total_shares * price
         }
 
-        investement_log.append(current_log) 
+        investment_log.append(current_log) 
 
 
-    investement_df = pd.DataFrame(investement_log)
-    print(investement_df.columns)
+    investment_df = pd.DataFrame(investment_log)
+
+    return investment_df
+
+# calculate_dca(ticker, initial_deposit, period, amount, start_date, end_date)
+
+def create_dca_visualization(investment_df):
     # Ensure 'Date' column is a datetime object if needed
-    investement_df['Date'] = pd.to_datetime(investement_df['Date'])
-    print(investement_df)
+    investment_df['Date'] = pd.to_datetime(investment_df['Date'])
+
+    # get the vlue of the chosen ticker from the ticker column at row 0
+    ticker = investment_df.iloc[0, 0]
 
     fig = go.Figure()
-    fig = fig.add_trace(go.Scatter(x=investement_df['Date'], y=investement_df['Portfolio Value'], fill='tozeroy'))
-    fig = fig.add_trace(go.Scatter(x=investement_df['Date'], y=investement_df['Total Investment'], fill='tonexty'))
+    fig = fig.add_trace(go.Scatter(x=investment_df['Date'], y=investment_df['Portfolio Value'], name="Portfolio Value", fill='tonexty', fillcolor='lightgreen'))
+    fig = fig.add_trace(go.Scatter(x=investment_df['Date'], y=investment_df['Total Investment'], name="Total Investment"))
     fig.update_layout(showlegend=True, title=f'Portfolio Value for {ticker}', xaxis_title='Date', yaxis_title='Portfolio Value')
 
     return fig
-
-# calculate_dca(ticker, initial_deposit, period, amount, start_date, end_date)
